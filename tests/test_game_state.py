@@ -72,8 +72,8 @@ class TestSeatingState(unittest.TestCase):
 
     def test_seat_becomes_unoccupied_if_four_adjacent_seat_occupied(self):
         seating = Seating(content=dedent("""L###L
-                                      LL#LL
-                                      ###LL"""))
+                                            LL#LL
+                                            ###LL"""))
 
         seating.cycle()
         self.assertFalse(seating.state.get((1, 2)))
@@ -89,8 +89,8 @@ class TestSeatingState(unittest.TestCase):
 
     def test_number_of_occupied_seats_accounts_for_occupied_seats(self):
         seating = Seating(content=dedent("""L###L
-                                      LL#LL
-                                      ###LL"""))
+                                            LL#LL
+                                            ###LL"""))
 
         self.assertEqual(seating.total_occupied_seats(), 7)
 
