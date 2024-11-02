@@ -27,14 +27,14 @@ class TestSeatingState(unittest.TestCase):
         self.assertTrue(seating.state[1][1].occupied)
         self.assertTrue(seating.state[1][2].occupied)
 
-    def test_seat_is_occupiable(self):
+    def test_seat_can_be_occupied(self):
         seating = Seating(content="L#")
         self.assertEqual(len(seating.state), 1)
         self.assertTrue(seating.state[0][0].can_be_occupied())
         self.assertTrue(seating.state[0][1].can_be_occupied())
 
 
-    def test_ground_is_not_occupiable(self):
+    def test_ground_cannot_be_occupied(self):
         seating = Seating(content=".")
         self.assertEqual(len(seating.state), 1)
         self.assertFalse(seating.state[0][0].can_be_occupied())
