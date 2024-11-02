@@ -1,7 +1,3 @@
-from copy import deepcopy
-from itertools import chain
-
-
 class Seating():
     def __init__(self, content: str):
         self.state = dict()
@@ -26,24 +22,25 @@ class Seating():
 
 
     def cycle(self):
-        next_state = deepcopy(self.state)
+        next_state = dict()
         self.stable = True
-        for position, location in next_state.items():
+        for position, location in self.state.items():
             if location and self.number_of_adjacent_occupied_seats(position[0], position[1]) >= 4:
                 next_state[(position[0], position[1])] = False
                 self.stable = False
-            if not location and self.number_of_adjacent_occupied_seats(position[0], position[1]) == 0:
+            elif not location and self.number_of_adjacent_occupied_seats(position[0], position[1]) == 0:
                 next_state[(position[0], position[1])] = True
                 self.stable = False
+            else:
+                next_state[(position[0], position[1])] = location
 
         self.state = next_state
 
 
     def number_of_adjacent_occupied_seats(self, row: int, column: int) -> int:
         adjacency = [(-1, -1), (-1, 0), (-1, 1),
-                            (0, -1), (0, 1),
-                            (1, -1), (1, 0), (1, 1)
-                              ]
+                    (0, -1), (0, 1),
+                    (1, -1), (1, 0), (1, 1)]
         return sum([self.state.get((adj_row + row, adj_col + column), False) for adj_row, adj_col in adjacency])
                 
     
