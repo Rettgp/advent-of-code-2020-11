@@ -6,17 +6,13 @@ from itertools import chain
 class Seat():
     def __init__(self, occupied: bool = False):
         self.occupied = occupied
-
-    def can_be_occupied(self):
-        return True
+        self.can_be_occupied = True
 
 
 class Ground():
     def __init__(self):
         self.occupied = False
-
-    def can_be_occupied(self):
-        return False
+        self.can_be_occupied = False
 
 
 class Seating():
@@ -48,10 +44,10 @@ class Seating():
         for row in range(len(self.state)):
             for column in range(len(self.state[row])):
                 seat = new_state[row][column]
-                if seat.occupied and seat.can_be_occupied() and self.adjacent_occupied_seats(row, column) >= 4:
+                if seat.occupied and seat.can_be_occupied and self.adjacent_occupied_seats(row, column) >= 4:
                     seat.occupied = False
                     self.stable = False
-                if not seat.occupied and seat.can_be_occupied() and self.adjacent_occupied_seats(row, column) == 0:
+                if not seat.occupied and seat.can_be_occupied and self.adjacent_occupied_seats(row, column) == 0:
                     seat.occupied = True
                     self.stable = False
 

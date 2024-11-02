@@ -17,27 +17,22 @@ class TestSeatingState(unittest.TestCase):
         self.test_input = ""
 
 
-    def test_initial_seating_state(self):
-        seating = Seating(content="LLL\n###")
-        self.assertEqual(len(seating.state), 2)
+    def test_occupied_seat(self):
+        seating = Seating(content="L")
         self.assertFalse(seating.state[0][0].occupied)
-        self.assertFalse(seating.state[0][1].occupied)
-        self.assertFalse(seating.state[0][2].occupied)
-        self.assertTrue(seating.state[1][0].occupied)
-        self.assertTrue(seating.state[1][1].occupied)
-        self.assertTrue(seating.state[1][2].occupied)
-
-    def test_seat_can_be_occupied(self):
-        seating = Seating(content="L#")
-        self.assertEqual(len(seating.state), 1)
-        self.assertTrue(seating.state[0][0].can_be_occupied())
-        self.assertTrue(seating.state[0][1].can_be_occupied())
+        self.assertTrue(seating.state[0][0].can_be_occupied)
 
 
-    def test_ground_cannot_be_occupied(self):
+    def test_not_unoccupied_seat(self):
+        seating = Seating(content="#")
+        self.assertTrue(seating.state[0][0].occupied)
+        self.assertTrue(seating.state[0][0].can_be_occupied)
+
+
+    def test_ground_is_unoccupied_and_cannot_be_occupied(self):
         seating = Seating(content=".")
-        self.assertEqual(len(seating.state), 1)
-        self.assertFalse(seating.state[0][0].can_be_occupied())
+        self.assertFalse(seating.state[0][0].occupied)
+        self.assertFalse(seating.state[0][0].can_be_occupied)
 
 
     def test_seat_becomes_occupied_if_no_adjacent_occupied(self):
