@@ -2,16 +2,10 @@ from copy import deepcopy
 from itertools import chain
 
 
-class Seat():
-    def __init__(self, occupied: bool = False):
+class Position():
+    def __init__(self, occupied: bool = False, can_be_occupied: bool = True):
         self.occupied = occupied
-        self.can_be_occupied = True
-
-
-class Ground():
-    def __init__(self):
-        self.occupied = False
-        self.can_be_occupied = False
+        self.can_be_occupied = can_be_occupied
 
 
 class Seating():
@@ -22,12 +16,12 @@ class Seating():
         for character in content:
             match (character):
                 case 'L':
-                    self.state[row].append(Seat())
+                    self.state[row].append(Position())
                 case '.':
-                    self.state[row].append(Ground())
+                    self.state[row].append(Position(occupied = False, can_be_occupied=False))
                     pass
                 case '#':
-                    self.state[row].append(Seat(occupied = True))
+                    self.state[row].append(Position(occupied = True))
                     pass
                 case '\n':
                     self.state.append([])
@@ -58,7 +52,7 @@ class Seating():
             if row >= 0 and row < len(self.state) and column >= 0 and column < len(self.state[row]):
                 return self.state[row][column]
 
-            return Seat()
+            return Position()
 
         adjacent_positions = [(-1, -1), (-1, 0), (-1, 1),
                             (0, -1), (0, 1),
