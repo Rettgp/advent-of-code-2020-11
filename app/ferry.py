@@ -2,11 +2,6 @@ from copy import deepcopy
 from itertools import chain
 
 
-class Location():
-    def __init__(self, occupied: bool = False, can_be_occupied: bool = True):
-        self.occupied = occupied
-
-
 class Seating():
     def __init__(self, content: str):
         self.state = dict()
