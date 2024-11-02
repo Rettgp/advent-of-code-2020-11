@@ -34,28 +34,23 @@ class Seating():
         next_state = deepcopy(self.state)
         self.stable = True
         for position, location in next_state.items():
-            if location and self.adjacent_occupied_seats(position[0], position[1]) >= 4:
+            if location and self.number_of_adjacent_occupied_seats(position[0], position[1]) >= 4:
                 next_state[(position[0], position[1])] = False
                 self.stable = False
-            if not location and self.adjacent_occupied_seats(position[0], position[1]) == 0:
+            if not location and self.number_of_adjacent_occupied_seats(position[0], position[1]) == 0:
                 next_state[(position[0], position[1])] = True
                 self.stable = False
 
         self.state = next_state
 
 
-    def adjacent_occupied_seats(self, row: int, column: int) -> int:
-        adjacent_positions = [(-1, -1), (-1, 0), (-1, 1),
+    def number_of_adjacent_occupied_seats(self, row: int, column: int) -> int:
+        adjacency = [(-1, -1), (-1, 0), (-1, 1),
                             (0, -1), (0, 1),
                             (1, -1), (1, 0), (1, 1)
                               ]
-
-        adjacent_occupied = 0
-        for adjacent_row, adjacent_column in adjacent_positions:
-            adjacent_occupied += 1 if self.state.get((adjacent_row + row, adjacent_column + column), False) else 0
-
-        return adjacent_occupied
+        return sum([self.state.get((adj_row + row, adj_col + column), False) for adj_row, adj_col in adjacency])
                 
     
-    def number_occupied_seats(self):
+    def total_occupied_seats(self):
         return sum([seat for seat in self.state.values()])

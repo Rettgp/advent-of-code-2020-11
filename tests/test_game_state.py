@@ -52,7 +52,7 @@ class TestSeatingState(unittest.TestCase):
     def test_number_of_occupied_seats_is_zero_if_no_adjacent_seats(self):
         seating = Seating(content="#")
         self.assertEqual(len(seating.state), 1)
-        self.assertEqual(seating.adjacent_occupied_seats(row = 0, column = 0), 0)
+        self.assertEqual(seating.number_of_adjacent_occupied_seats(row = 0, column = 0), 0)
 
 
     def test_number_of_occupied_seats_is_correct(self):
@@ -60,14 +60,14 @@ class TestSeatingState(unittest.TestCase):
                                             LLLLL
                                             ###LL"""))
 
-        self.assertEqual(seating.adjacent_occupied_seats(row = 0, column = 2), 2)
-        self.assertEqual(seating.adjacent_occupied_seats(row = 1, column = 2), 5)
-        self.assertEqual(seating.adjacent_occupied_seats(row = 2, column = 2), 1)
+        self.assertEqual(seating.number_of_adjacent_occupied_seats(row = 0, column = 2), 2)
+        self.assertEqual(seating.number_of_adjacent_occupied_seats(row = 1, column = 2), 5)
+        self.assertEqual(seating.number_of_adjacent_occupied_seats(row = 2, column = 2), 1)
 
 
     def test_number_of_occupied_seats_does_not_account_for_ground(self):
         seating = Seating(content=".L#.")
-        self.assertEqual(seating.adjacent_occupied_seats(row = 0, column = 1), 1)
+        self.assertEqual(seating.number_of_adjacent_occupied_seats(row = 0, column = 1), 1)
 
 
     def test_seat_becomes_unoccupied_if_four_adjacent_seat_occupied(self):
@@ -92,7 +92,7 @@ class TestSeatingState(unittest.TestCase):
                                       LL#LL
                                       ###LL"""))
 
-        self.assertEqual(seating.number_occupied_seats(), 7)
+        self.assertEqual(seating.total_occupied_seats(), 7)
 
 
     def test_state_becomes_stable_if_nothing_changes(self):
@@ -111,7 +111,7 @@ class TestSeatingState(unittest.TestCase):
         while not seating.stable:
             seating.cycle()
 
-        self.assertEqual(seating.number_occupied_seats(), 37)
+        self.assertEqual(seating.total_occupied_seats(), 37)
 
 
     def test_integration_huge(self):
@@ -120,4 +120,4 @@ class TestSeatingState(unittest.TestCase):
         while not seating.stable:
             seating.cycle()
 
-        self.assertEqual(seating.number_occupied_seats(), 2319)
+        self.assertEqual(seating.total_occupied_seats(), 2319)
