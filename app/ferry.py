@@ -7,7 +7,7 @@ class Seat():
     def __init__(self, occupied: bool = False):
         self.occupied = occupied
 
-    def isOccupiable(self):
+    def can_be_occupied(self):
         return True
 
 
@@ -15,7 +15,7 @@ class Ground():
     def __init__(self):
         self.occupied = False
 
-    def isOccupiable(self):
+    def can_be_occupied(self):
         return False
 
 
@@ -48,17 +48,17 @@ class Seating():
         for row in range(len(self.state)):
             for column in range(len(self.state[row])):
                 seat = new_state[row][column]
-                if seat.occupied and seat.isOccupiable() and self.adjacentOccupiedSeats(row, column) >= 4:
+                if seat.occupied and seat.can_be_occupied() and self.adjacent_occupied_seats(row, column) >= 4:
                     seat.occupied = False
                     self.stable = False
-                if not seat.occupied and seat.isOccupiable() and self.adjacentOccupiedSeats(row, column) == 0:
+                if not seat.occupied and seat.can_be_occupied() and self.adjacent_occupied_seats(row, column) == 0:
                     seat.occupied = True
                     self.stable = False
 
         self.state = new_state
 
 
-    def adjacentOccupiedSeats(self, row: int, column: int) -> int:
+    def adjacent_occupied_seats(self, row: int, column: int) -> int:
         def getPosition(row: int, column: int):
             if row >= 0 and row < len(self.state) and column >= 0 and column < len(self.state[row]):
                 return self.state[row][column]
