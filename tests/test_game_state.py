@@ -19,29 +19,26 @@ class TestSeatingState(unittest.TestCase):
 
     def test_occupied_seat(self):
         seating = Seating(content="L")
-        self.assertFalse(seating.state.get((0, 0)).occupied)
-        self.assertTrue(seating.state.get((0, 0)).can_be_occupied)
+        self.assertFalse(seating.state.get((0, 0)))
 
 
     def test_not_unoccupied_seat(self):
         seating = Seating(content="#")
-        self.assertTrue(seating.state.get((0, 0)).occupied)
-        self.assertTrue(seating.state.get((0, 0)).can_be_occupied)
+        self.assertTrue(seating.state.get((0, 0)))
 
 
-    def test_ground_is_unoccupied_and_cannot_be_occupied(self):
+    def test_ground_is_not_counted(self):
         seating = Seating(content=".")
-        self.assertFalse(seating.state.get((0, 0)).occupied)
-        self.assertFalse(seating.state.get((0, 0)).can_be_occupied)
+        self.assertEqual(len(seating.state), 0)
 
 
     def test_seat_becomes_occupied_if_no_adjacent_occupied(self):
         seating = Seating(content="L")
         self.assertEqual(len(seating.state), 1)
 
-        self.assertFalse(seating.state.get((0,0)).occupied)
+        self.assertFalse(seating.state.get((0,0)))
         seating.cycle()
-        self.assertTrue(seating.state.get((0,0)).occupied)
+        self.assertTrue(seating.state.get((0,0)))
 
 
     def test_seat_stays_occupied_if_no_adjacent_occupied(self):
@@ -49,7 +46,7 @@ class TestSeatingState(unittest.TestCase):
         self.assertEqual(len(seating.state), 1)
 
         seating.cycle()
-        self.assertTrue(seating.state.get((0, 0)).occupied)
+        self.assertTrue(seating.state.get((0, 0)))
 
 
     def test_number_of_occupied_seats_is_zero_if_no_adjacent_seats(self):
@@ -60,8 +57,8 @@ class TestSeatingState(unittest.TestCase):
 
     def test_number_of_occupied_seats_is_correct(self):
         seating = Seating(content=dedent("""L###L
-                                      LLLLL
-                                      ###LL"""))
+                                            LLLLL
+                                            ###LL"""))
 
         self.assertEqual(seating.adjacent_occupied_seats(row = 0, column = 2), 2)
         self.assertEqual(seating.adjacent_occupied_seats(row = 1, column = 2), 5)
@@ -79,15 +76,15 @@ class TestSeatingState(unittest.TestCase):
                                       ###LL"""))
 
         seating.cycle()
-        self.assertFalse(seating.state.get((1, 2)).occupied)
+        self.assertFalse(seating.state.get((1, 2)))
 
 
     def test_ground_stays_ground_after_cycle(self):
         seating = Seating(content=".")
 
-        self.assertFalse(seating.state.get((0, 0)).occupied)
+        self.assertFalse(seating.state.get((0, 0)))
         seating.cycle()
-        self.assertFalse(seating.state.get((0, 0)).occupied)
+        self.assertFalse(seating.state.get((0, 0)))
 
 
     def test_number_of_occupied_seats_accounts_for_occupied_seats(self):

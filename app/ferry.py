@@ -5,8 +5,6 @@ from itertools import chain
 class Location():
     def __init__(self, occupied: bool = False, can_be_occupied: bool = True):
         self.occupied = occupied
-        self.can_be_occupied = can_be_occupied
-        self.adjacent = []
 
 
 class Seating():
@@ -18,13 +16,12 @@ class Seating():
         for character in content:
             match (character):
                 case 'L':
-                    self.state[(row, column)] = Location()
-                    column += 1
-                case '.':
-                    self.state[(row, column)] = Location(occupied = False, can_be_occupied=False)
+                    self.state[(row, column)] = False
                     column += 1
                 case '#':
-                    self.state[(row, column)] = Location(occupied = True)
+                    self.state[(row, column)] = True
+                    column += 1
+                case '.':
                     column += 1
                 case '\n':
                     column = 0
@@ -37,11 +34,11 @@ class Seating():
         next_state = deepcopy(self.state)
         self.stable = True
         for position, location in next_state.items():
-            if location.occupied and location.can_be_occupied and self.adjacent_occupied_seats(position[0], position[1]) >= 4:
-                location.occupied = False
+            if location and self.adjacent_occupied_seats(position[0], position[1]) >= 4:
+                next_state[(position[0], position[1])] = False
                 self.stable = False
-            if not location.occupied and location.can_be_occupied and self.adjacent_occupied_seats(position[0], position[1]) == 0:
-                location.occupied = True
+            if not location and self.adjacent_occupied_seats(position[0], position[1]) == 0:
+                next_state[(position[0], position[1])] = True
                 self.stable = False
 
         self.state = next_state
@@ -55,10 +52,10 @@ class Seating():
 
         adjacent_occupied = 0
         for adjacent_row, adjacent_column in adjacent_positions:
-            adjacent_occupied += 1 if self.state.get((adjacent_row + row, adjacent_column + column), Location()).occupied else 0
+            adjacent_occupied += 1 if self.state.get((adjacent_row + row, adjacent_column + column), False) else 0
 
         return adjacent_occupied
                 
     
     def number_occupied_seats(self):
-        return sum([seat.occupied for seat in self.state.values()])
+        return sum([seat for seat in self.state.values()])
