@@ -24,15 +24,15 @@ class Seating():
     def cycle(self):
         next_state = dict()
         self.stable = True
-        for position, location in self.state.items():
-            if location and self.number_of_adjacent_occupied_seats(position[0], position[1]) >= 4:
+        for position, is_occupied in self.state.items():
+            if is_occupied and self.number_of_adjacent_occupied_seats(position[0], position[1]) >= 4:
                 next_state[(position[0], position[1])] = False
                 self.stable = False
-            elif not location and self.number_of_adjacent_occupied_seats(position[0], position[1]) == 0:
+            elif not is_occupied and self.number_of_adjacent_occupied_seats(position[0], position[1]) == 0:
                 next_state[(position[0], position[1])] = True
                 self.stable = False
             else:
-                next_state[(position[0], position[1])] = location
+                next_state[(position[0], position[1])] = is_occupied
 
         self.state = next_state
 
