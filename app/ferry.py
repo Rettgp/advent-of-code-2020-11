@@ -19,7 +19,7 @@ class Ground():
         return False
 
 
-class Game():
+class Seating():
     def __init__(self, content: str):
         self.state = [[]]
         self.stable = False
